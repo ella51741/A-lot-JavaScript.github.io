@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="YiJing(Ella) Chiang"/>
+    <meta name="robots" content="index,follow"/>
+    <meta name="rating" content="General"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=""/>
+    <base target="_self"/>
+    <!-- google font -->
+    
+    <!-- page icon  -->
+    <link rel="shortcut icon" href="./bear.png">
+    <link rel="bookmark" href="">
+    <title>BEAR CLOCK</title>
+</head>
+<body>
+    <div class="clock">
+        <div class="ear L"></div>
+        <div class="ear R"></div>
+        <div class="clockface">
+            <span class="eye left"></span>
+            <span class="eye right"></span>
+            <span class="mouth"></span>
+            <div class="hand hour-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="hand min-hand"></div>
+        </div>
+    </div>
+
+    <style>
+         * {
+             padding: 0;
+             margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            background-color:#FFDA6B;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+            min-height: 100vh            
+        }              
+
+        .clock{
+            width: 15rem;
+            height: 15rem;
+            border-radius: 50%;
+            background-color:#A43B07;
+            padding: 1rem;
+            position: relative;
+        }
+
+        .clockface{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #A43B07;
+            position: relative;
+            /* transform: translateY(-3px);     /* 可平移位置 */
+        }
+        
+        .hand{
+            width: 25%;                    /*以左上為原點，向右長50%    */
+            height: 0.25rem;
+            background:black;
+            border-radius: 25%;
+            position: absolute;
+            left: 25%;
+            top:63%;
+            transform-origin: right;      /* 改變元素的原點 >> 右邊  */
+            /* transform: rotate(90deg);     若無上面transform-origin設定，預設rotate原點為'中心點'  */
+            /* animation: beat 0.5s ease 1s infinite forwards;  */
+        }
+
+        .hour-hand {
+            width: 20%;
+            left: 30%;
+            background-color: red;
+        }
+
+        .eye {
+            position: absolute;
+            top: 90px;
+            background: black;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+        }
+        .eye::before{
+            content: "";
+            width: .2rem;
+            height: .2rem;
+            border-radius: 50%;
+            background-color: white;
+            position: absolute;
+            top: 50%;     
+            left: 50%;
+        }
+
+        .left {
+        left: 25%;
+        animation: blink 3s ease-in-out infinite;
+        }
+
+        .right {
+        left: 65%;
+        animation: blink 3.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+        85% {
+            transform: rotateX(0deg);
+        }
+        90% {
+            transform: rotateX(90deg);
+        }
+        }
+
+        .mouth {
+            position: absolute;
+            top: 60%;
+            left: 122px;
+            z-index: 4;
+            background: black;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 20% 20% 50% 50%;
+        }
+
+        .ear{
+            position: absolute;
+            top:-5%;
+            height: 5rem;
+            width: 5rem;
+            border-radius: 50%;
+            background-color:#A43B07;
+            z-index: -1;
+            left:-5%
+        }
+
+        .R{
+            left:73%
+        }
+
+        .ear::before {
+            content: "";
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: black;
+            position: absolute;
+            top: 50%;     /*以物的左上點為主 >>  左上點定位中心 >>  歪  */
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);  /*以中心點為主到 top: 50%  left: 50%;*/
+        }
+
+    </style>
+
+    <script>
+        const hourHand = document.querySelector('.hour-hand');
+        const minHand = document.querySelector('.min-hand');
+        const secHand = document.querySelector('.second-hand');
+
+        function setTime (){               
+            const now = new Date();       // 1. 取得現在時間 ("24進位制")
+            //console.log(now);          一個物件 {Sun Feb 27 2022 20:43:11 GMT+0800 (台北標準時間)}
+            const hr = now.getHours();
+            const min = now.getMinutes();
+            const sec = now.getSeconds();
+                                          // 2. 換算角度，帶入transform
+            //20:43:11 時針不會就停在"8"的正中央，除非20:00:00 (分針也是)，起點9:00，所以要+90才會是0點原點
+            const hrDeg = hr * 360/12 + min * 360/12/60 + sec * 360/12/60/60 + 90; 
+            const minDeg = min * 360/60 + sec * 360/60/60 + 90; 
+            const secDeg = sec * 360/60 + 90;
+            
+            hourHand.style.transform = `translateY(-3px) rotate(${hrDeg}deg)`; 
+            minHand.style.transform = `translateY(-3px) rotate(${minDeg}deg)`;
+            secHand.style.transform = `translateY(-1px) rotate(${secDeg}deg)`;
+
+
+        }
+        
+        setInterval(setTime, 1000);       // 3.設立 setInterval 函式
+        // 兩者的不同之處是 setTimeout() 只會執行一次就結束，而 setInterval() 則是會在間隔固定的時間不斷重複
+
+        setTime();                       // 4.執行
+        
+
+    </script>
+
+</body>
+
+<!-- Tip of JS30-01CLOCK:
+
+
+
+兩者的不同之處是 setTimeout() 只會執行一次就結束，而 setInterval() 則是會在間隔固定的時間不斷重複。
+Var timeoutID = window.setTimeout(( () => console.log("Hello!") ), 1000);
+Var timeoutID = window.setInterval(( () => console.log("Hello!") ), 1000);
+
+
+JavaScript  “Date” 物件來指向某一個時間點。Date 物件是基於世界標準時間（UTC）
+
+
+
+“時間”函式的內容如下:
+
+存取現在的時間
+把時間的時, 分, 秒的值個別存在對應的變數中
+把時, 分, 秒轉變為指針該旋轉的度數, 並存到對應的變數中
+操控CSS讓指針旋轉到正確的度數
+
+用setInterval(要執行函式,間隔時間) 在間隔固定的時間不斷重複函式。
+
+執行“時間”函式
+
+
+
+https://ithelp.ithome.com.tw/articles/10192777
+ -->
+</html>
+
