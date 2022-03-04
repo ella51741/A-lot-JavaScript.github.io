@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="YiJing(Ella) Chiang"/>
+    <meta name="robots" content="index,follow"/>
+    <meta name="rating" content="General"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=""/>
+    <base target="_self"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Secular+One&display=swap" rel="stylesheet">    <!-- page icon  -->
+    <link rel="shortcut icon" href="./god icon.png">
+    <link rel="bookmark" href="">
+    <title>Shine Jesus</title>
+</head>
+<body>
+    <h2>What does your God look like in your imagination</h2>
+    <h3> <span class='shine'>Shine</span> your lovely God !</h3>
+    <div class="controls">
+        <label for="spread">spread:</label>
+        <input id="spread" type="range" name="spread" min="10" max="200" value="10" data-sizing="px">
+    
+        <label for="blur">Blur:</label>
+        <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+    
+        <label for="color">Color</label>
+        <input id="color" type="color" name="color" value="#ffc600">
+      </div>
+      <img src="./god.png" alt="">
+<style>
+    * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: 'Secular One', sans-serif;
+    }
+    :root {    
+      --color: #ffc600;
+      --spread: 10px;
+      --blur: 10px;
+    }
+
+    body{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #193549;
+        color: white;
+        font-family: 'helvetica neue', sans-serif;
+    }
+
+    h2{
+        padding: 1rem;
+    }
+
+    h3{
+        padding-bottom: 1rem; 
+    }
+
+    span{
+        color:var(--color);
+    }
+
+    .controls{
+        padding-bottom: 2rem; 
+    }
+
+
+    img{
+        border-radius: 50%;
+        width: 40%;
+        height: 60%;
+        box-shadow: 0 0 var(--spread) var(--color) ;    
+        filter: blur(var(--blur));
+        padding: 3rem;
+    }
+
+    input {
+      width:100px;
+    }
+    
+</style>
+<script>
+    //input 一個事件觸發:當<input>內的值改變時...
+    document.querySelector('#spread').addEventListener('input', spreadChange);  
+    document.querySelector('#blur').addEventListener('input', imgBlur);
+    document.querySelector('#color').addEventListener('input', colorChange);
+
+    function spreadChange(event){
+        // let a = event.target;       //<input>為事件內容
+        //  console.log(a);            //事件本身是物件
+        let newSpread = event.target.value;
+        document.documentElement.style.setProperty('--spread',`${newSpread}px`);
+    };
+    function imgBlur(event) {
+        let newBlur = event.target.value;
+        document.documentElement.style.setProperty('--blur', `${newBlur}px`);
+    };
+    function colorChange (event) {
+        let newColor = event.target.value;
+        document.documentElement.style.setProperty('--color', `${newColor}`);
+    };
+
+</script>
+</body>
+</html>
